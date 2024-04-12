@@ -1,6 +1,6 @@
 <template>
 
-  <nav class="navbar navbar-expand-lg  border-bottom p-3" v-if="!userStore.loadingSession">
+  <nav class="navbar navbar-expand-lg  border-bottom p-3" v-if="!loadingSession">
     <div class="container">
       <router-link class="navbar-brand" to="/">RENACER</router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -12,10 +12,10 @@
           <li class="nav-item">
             <router-link class="nav-link" aria-current="page" to="/">Home</router-link>
           </li>
-          <li class="nav-item" v-if="userStore.user">
+          <li class="nav-item" v-if="user">
             <router-link class="nav-link" to="/canciones">Canciones</router-link>
           </li>
-          <li class="nav-item" v-if="!userStore.user">
+          <li class="nav-item" v-if="!user">
             <router-link class="nav-link" to="/register">Registro</router-link>
           </li>
 
@@ -25,7 +25,7 @@
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form> -->
-        <button class="btn btn-outline-primary" @click="userStore.logout" v-if="userStore.user">Logout</button>
+        <button class="btn btn-outline-primary" @click="userStore.logout" v-if="user">Logout</button>
       </div>
     </div>
   </nav>
@@ -37,8 +37,12 @@
 </template>
 
 <script setup>
-import { useUserStore } from './stores/user';
 
+import { useUserStore } from './stores/user';
+import { storeToRefs } from 'pinia';
 const userStore = useUserStore()
+const { loadingSession, user } = storeToRefs(userStore)
+
+
 
 </script>

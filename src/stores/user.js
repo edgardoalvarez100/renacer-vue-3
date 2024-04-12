@@ -7,14 +7,14 @@ const useUserStore = defineStore("users", {
     return {
       user: null,
       loadingSession: false,
+      errorUser: null,
     };
   },
   actions: {
     async logout() {
       this.loadingSession = true;
       try {
-        const session = await account.deleteSession("current");
-        console.log(session);
+        await account.deleteSession("current");
         this.user = null;
         router.push("/login");
       } catch (error) {
@@ -27,9 +27,11 @@ const useUserStore = defineStore("users", {
       this.loadingSession = true;
       try {
         const res = await account.get();
+
         this.user = { id: res.$id, email: res.email, name: res.name };
       } catch (error) {
         this.user = null;
+        this.errorUser = error.code;
       } finally {
         this.loadingSession = false;
       }
