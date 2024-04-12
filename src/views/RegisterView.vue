@@ -23,7 +23,10 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { account, ID } from '../lib/appwrite';
+import { useUserStore } from "../stores/user";
+import { router } from '@/router/'
 
 const loggedInUser = ref(null);
 const loading = ref(false);
@@ -33,6 +36,12 @@ const name = ref('');
 const errorRegister = ref(null);
 
 
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore)
+
+if (user) {
+  router.push("/")
+}
 
 const register = async () => {
   loading.value = true

@@ -12,10 +12,10 @@
           <li class="nav-item">
             <router-link class="nav-link" aria-current="page" to="/">Home</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="userStore.user">
             <router-link class="nav-link" to="/canciones">Canciones</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!userStore.user">
             <router-link class="nav-link" to="/register">Registro</router-link>
           </li>
 
@@ -25,7 +25,7 @@
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form> -->
-        <button class="btn btn-outline-primary" @click="userStore.logout">Logout</button>
+        <button class="btn btn-outline-primary" @click="userStore.logout" v-if="userStore.user">Logout</button>
       </div>
     </div>
   </nav>
