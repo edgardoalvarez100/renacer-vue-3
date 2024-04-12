@@ -3,7 +3,7 @@
         <div class="col-md-6 ">
             <h1>Login</h1>
 
-            <div class="alert alert-danger" v-if="errorRegister">{{ errorRegister }}</div>
+            <div class="alert alert-danger" v-if="errorLogin">{{ errorLogin }}</div>
             <form class="form" @submit.prevent="login">
 
                 <input type="email" placeholder="Email" v-model="email" class="form-control mb-2" required
@@ -24,23 +24,32 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { account } from '../lib/appwrite';
 import { useUserStore } from "../stores/user";
+import { router } from '@/router/'
 
 const loading = ref(false);
 const email = ref('');
 const password = ref('');
-const errorRegister = ref(null);
+const errorLogin = ref(null);
+
 
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore)
 
-const login = async () => {
-    try {
+if (user) {
+    router.push("/")
+}
 
+const login = async () => {
+    loading.value = true
+    try {
         const session = await account.createEmailPasswordSession(email.value, password.value);
-        const userDB = await account.get();
-        user.value = userDB;
+        const res = await account.get();
+        user.value = { id: res.$id, email: res.email, name: res.name };
+        router.push("/")
     } catch (error) {
-        console.log(error);
+        errorLogin.value = error.response.message
+    } finally {
+        loading.value = false
     }
 }
 </script>
