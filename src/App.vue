@@ -29,7 +29,7 @@
       </div>
     </div>
   </nav>
-  <div v-else>Loading session...</div>
+  <div v-else class="text-center">Loading session...</div>
   <div class="container">
     <RouterView></RouterView>
   </div>
