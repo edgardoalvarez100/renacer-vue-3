@@ -108,6 +108,7 @@ let thisModalObj = null;
 
 onMounted(() => {
     thisModalObj = new Modal(modalEle.value);
+    console.log(thisModalObj)
 });
 
 const getSongs = async () => {
@@ -124,7 +125,7 @@ const getSongs = async () => {
 
 }
 
-const reset = () => {
+const resetForm = () => {
     name.value = null
     tone.value = null
     singer.value = null
@@ -141,10 +142,10 @@ const addSong = async () => {
     try {
         const doc = { name: name.value, tone: tone.value, singer: singer.value, note: note.value, rhythm: rhythm.value };
         const res = await databases.createDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, '6618a5eb00129cbc0817', ID.unique(), doc);
-
         console.log(res)
-        reset()
-        thisModalObj._isShown = false;
+        songs.value.push(res)
+        resetForm()
+
     } catch (error) {
         console.log(error)
     } finally {
