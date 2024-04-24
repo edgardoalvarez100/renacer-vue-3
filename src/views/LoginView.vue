@@ -35,7 +35,7 @@ const errorLogin = ref(null);
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore)
 
-if (user) {
+if (userStore.user) {
     router.push("/")
 }
 

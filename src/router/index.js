@@ -1,20 +1,22 @@
 import { createWebHistory, createRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 
+import { useUserStore } from "@/stores/user";
+
 import HomeView from "../views/HomeView.vue";
 import CancionesView from "../views/CancionesView.vue";
 import RegisterView from "../views/RegisterView.vue";
-import LoginView from "@/views/LoginView.vue";
-import { useUserStore } from "@/stores/user";
+import LoginView from "../views/LoginView.vue";
 
 const requireAuth = async (to, from, next) => {
   const userStore = useUserStore();
   const { loadingSession, user } = storeToRefs(userStore);
   loadingSession.value = true;
   await userStore.currentUser();
-  if (user.value) {
+  if (userStore.user) {
     next();
   } else {
+    console.log(userStore.user);
     next("/login");
   }
   loadingSession.value = false;
