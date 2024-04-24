@@ -26,20 +26,12 @@ const useUserStore = defineStore("users", {
     async currentUser() {
       this.loadingSession = true;
       try {
-        if (
-          localStorage.cookieFallback &&
-          JSON.parse(localStorage.cookieFallback).length != 0
-        ) {
-          console.log("lleno");
-          const res = await account.get();
-          this.user = { id: res.$id, email: res.email, name: res.name };
-        } else {
-          this.user = null;
-        }
+        const res = await account.get();
+        this.user = { id: res.$id, email: res.email, name: res.name };
       } catch (error) {
-        console.log(error.code);
         this.user = null;
         this.errorUser = error.code;
+        router.push("/login");
       } finally {
         this.loadingSession = false;
       }

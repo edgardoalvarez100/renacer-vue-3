@@ -43,6 +43,7 @@ const login = async () => {
     loading.value = true
     try {
         const session = await account.createEmailPasswordSession(email.value, password.value);
+        console.log(session)
         const res = await account.get();
         user.value = { id: res.$id, email: res.email, name: res.name };
         router.push("/")
